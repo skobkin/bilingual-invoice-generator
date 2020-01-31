@@ -6,14 +6,14 @@
         <td colspan="3">&nbsp;</td>
     </tr>
     <tr>
-        <td rowspan="2">{{ t.rows.supplier }}</td>
+        <td rowspan="2">{{ t.rows.supplier }}:</td>
         <td colspan="2">{{ t.supplier.title }}</td>
     </tr>
     <tr>
         <td colspan="2">{{ t.supplier.address }}</td>
     </tr>
     <tr>
-        <td rowspan="{{ 2 + t.buyer.extra|length }}">{{ t.rows.buyer }}</td>
+        <td rowspan="{{ 2 + t.buyer.extra|length }}">{{ t.rows.buyer }}:</td>
         <td colspan="2">{{ t.buyer.title }}</td>
     </tr>
     <tr>
@@ -61,10 +61,11 @@
     </tfoot>
 </table>
 
+<!-- Total to pay -->
 <table class="fat">
     <tr>
         <td colspan="3">
-            {{ t.rows.total_to_pay }}: {{ total|ntw(locale) }}
+            {{ t.rows.total_to_pay }}: {{ total|ntw(locale) }} {{ t.currency|currency_name(locale) }}.
         </td>
     </tr>
 </table>

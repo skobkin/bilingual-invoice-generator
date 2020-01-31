@@ -6,7 +6,7 @@ use App\Kernel;
 use App\Twig\NumberToWordsExtension;
 use App\Util\StringReplacer;
 use Twig\Environment as Twig;
-use Twig\Extra\Html\HtmlExtension;
+use Twig\Extra\{Html\HtmlExtension, Intl\IntlExtension};
 use Twig\Loader\FilesystemLoader;
 
 class InvoiceGenerator
@@ -15,13 +15,23 @@ class InvoiceGenerator
     {
         $twig = static::createTwig();
 
-        $sourceStaticSubstitutions = $config['translations']['source']['static_substitutions'];
-        //$sourceStaticSubstitutions = $config['translations']['target']['static_substitutions'];
+        $sourceStaticSubstitutions = array_merge(
+            $config['translations']['source']['static_substitutions'],
+            $config['configuration']['global_substitutions']
+        );
+        $targetStaticSubstitutions = array_merge(
+            $config['translations']['target']['static_substitutions'],
+            $config['configuration']['global_substitutions']
+        );
+
         $source = StringReplacer::recursiveReplace(
             $config['translations']['source']['variables'],
             $sourceStaticSubstitutions
         );
-        //$target = StringReplacer::recursiveReplace($config['translations']['target']['variables']);
+        $target = StringReplacer::recursiveReplace(
+            $config['translations']['target']['variables'],
+            $targetStaticSubstitutions
+        );
 
         // @TODO fix multilingual substitution depending on the context
         $services = StringReplacer::recursiveReplace($config['services'], $sourceStaticSubstitutions);
@@ -31,7 +41,7 @@ class InvoiceGenerator
             'configuration' => $config['configuration'],
             'trans_data' => [
                 'source' => $source,
-                //'target' => $target,
+                'target' => $target,
             ],
             'services' => $services,
             'images' => $images,
@@ -55,6 +65,7 @@ class InvoiceGenerator
         $twig = new Twig($loader);
 
         $twig->addExtension(new NumberToWordsExtension());
+        $twig->addExtension(new IntlExtension());
         $twig->addExtension(new HtmlExtension());
 
         return $twig;
