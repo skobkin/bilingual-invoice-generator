@@ -1,0 +1,27 @@
+table.fat
+{
+    width: 100%;
+}
+
+.title {
+    text-align: center;
+}
+
+table.bordered,
+tr.bordered td,
+tr.bordered th
+{
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+table.bordered-fully td,
+table.bordered-fully th
+{
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+table#invoice td {
+    vertical-align: top;
+}

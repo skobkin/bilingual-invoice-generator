@@ -1,0 +1,125 @@
+<h2 class="title">{{ t.title }}</h2>
+
+<!-- Party attributes -->
+<table class="bordered fat">
+    <tr>
+        <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+        <td rowspan="2">{{ t.rows.supplier }}</td>
+        <td colspan="2">{{ t.supplier.title }}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{{ t.supplier.address }}</td>
+    </tr>
+    <tr>
+        <td rowspan="{{ 2 + t.buyer.extra|length }}">{{ t.rows.buyer }}</td>
+        <td colspan="2">{{ t.buyer.title }}</td>
+    </tr>
+    <tr>
+        <td colspan="2">{{ t.buyer.address }}</td>
+    </tr>
+    {% for item in t.buyer.extra %}
+    <tr>
+        <td colspan="2">{{ item }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<!-- Services table -->
+<table class="bordered bordered-fully fat">
+    <thead>
+        <tr>
+            <th>{{ t.rows.th_number }}</th>
+            <th>{{ t.rows.th_name }}</th>
+            <th>{{ t.rows.th_amount }}</th>
+            <th>{{ t.rows.th_units }}</th>
+            <th>{{ t.rows.th_price }}</th>
+            <th>{{ t.rows.th_sum }}</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% set total = 0 %}
+    {% for service in services %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td width="60%">{{ service.name[context] }}</td>
+            <td>{{ service.amount }}</td>
+            <td>{{ service.units[context] }}</td>
+            <td>{{ service.amount }} {{ t.currency }}</td>
+            {% set sum = service.amount * service.price %}
+            <td>{{ sum }} {{ t.currency }}</td>
+        </tr>
+        {% set total = total + sum %}
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5" align="right">{{ t.rows.tf_total }}</td>
+            <td>{{ total }} {{ t.currency }}</td>
+        </tr>
+    </tfoot>
+</table>
+
+<table class="fat">
+    <tr>
+        <td colspan="3">
+            {{ t.rows.total_to_pay }}: {{ total|ntw(locale) }}
+        </td>
+    </tr>
+</table>
+
+<!-- Bank account data -->
+<table id="bank-details" class="fat">
+    <tr class="bordered">
+        <td colspan="3"><strong>{{ t.rows.account_data }}:</strong></td>
+    </tr>
+    <tr>
+        <td>{{ t.rows.account_number }}</td>
+        <td colspan="2">{{ t.supplier.bank.account }}</td>
+    </tr>
+    <tr>
+        <td colspan="3">{{ t.rows.bank }}</td>
+    </tr>
+    <tr>
+        <td colspan="3">{{ t.supplier.bank.name }}</td>
+    </tr>
+    <tr>
+        <td>{{ t.rows.bank_address }}</td>
+        <td colspan="2">{{ t.supplier.bank.address }}</td>
+    </tr>
+    <tr>
+        <td>{{ t.rows.swift }}</td>
+        <td colspan="2">{{ t.supplier.bank.swift }}</td>
+    </tr>
+    <tr>
+        <td><strong>{{ t.rows.corr_bank }}</strong></td>
+        <td colspan="2">{{ t.supplier.bank.corr_bank.name }}</td>
+    </tr>
+    <tr>
+        <td>{{ t.rows.swift }}</td>
+        <td colspan="2">{{ t.supplier.bank.corr_bank.swift }}</td>
+    </tr>
+    <tr>
+        <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+        <td colspan="3">{{ t.supplier.short_title }}</td>
+    </tr>
+    <tr>
+        <td colspan="3">&nbsp;</td>
+    </tr>
+    <tr>
+        <td height="50px">{{ t.rows.signature }}</td>
+        <td colspan="2" valign="bottom">
+            <img src="{{ images.signature|data_uri(mime='image/png') }}" alt="Signature">
+        </td>
+    </tr>
+    {% if images.stamp is defined %}
+    <tr>
+        <td colspan="3">
+            <img src="{{ images.stamp|data_uri(mime='image/png') }}" alt="Stamp">
+        </td>
+    </tr>
+    {% endif %}
+</table>

@@ -1,0 +1,70 @@
+configuration:
+    date_format:
+        source: ''
+        target: ''
+    locales:
+        source: ru
+        target: en
+    images:
+        signature: ''
+        stamp: ''
+
+services:
+    -
+        name:
+            source: 'Работа'
+            target: 'Work'
+        amount: 1000
+        units:
+            source: 'часа'
+            target: 'hour'
+        price: 1000
+
+translations:
+    source:
+        variables:
+            title: 'Счёт на оплату №%invoice_number% от %invoice_date%'
+            currency: '%currency%'
+            rows:
+                supplier: 'Поставщик'
+                buyer: 'Покупатель'
+                # service table
+                th_number: '№'
+                th_name: 'Наименование работ, услуг'
+                th_amount: 'Кол-во'
+                th_units: 'Ед.'
+                th_price: 'Цена'
+                th_sum: 'Сумма'
+                tf_total: 'Итого'
+                # bank data
+                account_data: 'Банковские реквизиты поставщика'
+                account_number: 'Номер счёта'
+                bank: 'Банк'
+                bank_address: 'Адрес'
+                swift: 'SWIFT'
+                corr_bank: 'Банк-посредник'
+                total_to_pay: 'Всего к оплате'
+                signature: 'Подпись'
+            supplier:
+                title: '123456'
+                short_title: '123'
+                address: 'some address'
+                extra: []
+                bank:
+                    account: '9999999999999999999'
+                    name: 'Some Bank of some Country'
+                    address: 'Some address'
+                    swift: 'SOMESWIFT'
+                    corr_bank:
+                        name: 'SOME CORR BANK'
+                        swift: 'SOMESWIFT2'
+            buyer:
+                title: '"Some Client" LLC'
+                address: 'Some Address'
+                extra:
+                    - 'VAT: EU12313123'
+                    - 'IBAN: EU123131231231232112'
+        static_substitutions:
+            '%contract_date%': '01.01.1970'
+            '%currency%': 'EUR'
+    #target:

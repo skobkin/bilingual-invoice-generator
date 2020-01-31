@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <title>Invoice</title>
+    {#<meta name="description" content="">#}
+</head>
+
+<style>
+{{ include ('invoice.css') }}
+</style>
+
+<body>
+
+<table width="1400px" id="invoice">
+    <tr>
+        <td width="50%">
+            {{ include ('invoice_side.html.twig', {
+                t: trans_data.source,
+                services: services,
+                images: images,
+                context: 'source',
+                locale: configuration.locales.source
+            }, with_context = false) }}
+        </td>
+        <td width="50%">
+            {{ include ('invoice_side.html.twig', {
+                t: trans_data.source,
+                services: services,
+                images: images,
+                context: 'target',
+                locale: configuration.locales.target
+            }, with_context = false) }}
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
