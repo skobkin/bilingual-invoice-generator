@@ -15,6 +15,7 @@
     },
     "require": {
         "php": ">=7.4",
+
         "asika/simple-console": "^1.0",
         "kwn/number-to-words": "^1.9",
         "mpdf/mpdf": "^8.0",

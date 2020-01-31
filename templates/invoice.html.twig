@@ -17,20 +17,20 @@
     <tr>
         <td width="50%">
             {{ include ('invoice_side.html.twig', {
-                t: trans_data.source,
                 services: services,
                 images: images,
                 context: 'source',
-                locale: configuration.locales.source
+                locale: locales.source,
+                currency: currency
             }, with_context = false) }}
         </td>
         <td width="50%">
             {{ include ('invoice_side.html.twig', {
-                t: trans_data.target,
                 services: services,
                 images: images,
                 context: 'target',
-                locale: configuration.locales.target
+                locale: locales.target,
+                currency: currency
             }, with_context = false) }}
         </td>
     </tr>

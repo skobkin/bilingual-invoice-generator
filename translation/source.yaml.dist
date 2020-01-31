@@ -1,0 +1,41 @@
+# Labels
+label_title: 'Счёт на оплату №%invoice_number% от %invoice_date%'
+label_supplier: 'Поставщик'
+label_buyer: 'Покупатель'
+label_th_number: '№'
+label_th_name: 'Наименование работ, услуг'
+label_th_amount: 'Кол-во'
+label_th_units: 'Ед.'
+label_th_price: 'Цена'
+label_th_sum: 'Сумма'
+label_tf_total: 'Итого'
+label_total_to_pay: 'Всего к оплате'
+label_supplier_account_data: 'Банковские реквизиты поставщика'
+label_supplier_account_number: 'Номер счёта'
+label_supplier_bank: 'Банк'
+label_supplier_bank_address: 'Адрес'
+label_swift: 'SWIFT'
+label_supplier_corr_bank: 'Банк-посредник'
+label_signature: 'Подпись'
+
+# Generic data
+
+# Supplier data
+supplier_title: 'ИП/ООО XXX'
+supplier_short_title: 'ИП/ООО XXX'
+supplier_address: 'Россия, г. Мухосранск, ул. Узкая 10'
+#supplier_extra: ''
+supplier_bank_account: '1234567890123456'
+supplier_bank_name: 'BANK OF MOTHER RUSSIA'
+supplier_bank_address: 'KREMLIN, RUSSIA'
+supplier_bank_swift: 'COOLSWIFT'
+supplier_bank_corr_bank_name: 'SOME CORRESPONDENT BANK'
+supplier_bank_corr_bank_swift: 'SADSWIFT'
+
+# Buyer data
+buyer_title: '"Buyer" LLC'
+buyer_address: 'Washington DC, USA'
+buyer_extra: "VAT: US12312312312\n
+IBAN: US1234567890123456"
+
+

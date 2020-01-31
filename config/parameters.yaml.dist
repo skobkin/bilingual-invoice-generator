@@ -1,118 +1,24 @@
 configuration:
-    date_format:
-        source: ''
-        target: ''
     locales:
         source: ru
         target: en
+    currency_code: 'USD'
     images:
-        signature: ''
-        stamp: ''
-    global_substitutions:
-        # TODO extract to parameters
-        '%invoice_number%': '999'
-        '%invoice_date%': '01.01.1970'
+        signature: 'images/sign.png'
+        stamp: 'images/stamp.png'
+
+contract:
+    # Must be set in format parsable by DateTime
+    date_from: '01.01.1970'
 
 services:
     -
         name:
-            source: 'Работа'
-            target: 'Work'
-        amount: 1000
+            source: 'Работа на работе по договору от %contract_date% за %period_end_date%'
+            target: 'Working on the job for the contract from %contract_date% for %period_end_date%'
+        amount: 9000
         units:
-            source: 'часа'
-            target: 'hour'
-        price: 1000
+            source: 'часы'
+            target: 'hours'
+        price: 100
 
-translations:
-    source:
-        variables:
-            title: 'Счёт на оплату №%invoice_number% от %invoice_date%'
-            currency: 'EUR'
-            rows:
-                supplier: 'Поставщик'
-                buyer: 'Покупатель'
-                # service table
-                th_number: '№'
-                th_name: 'Наименование работ, услуг'
-                th_amount: 'Кол-во'
-                th_units: 'Ед.'
-                th_price: 'Цена'
-                th_sum: 'Сумма'
-                tf_total: 'Итого'
-                # bank data
-                account_data: 'Банковские реквизиты поставщика'
-                account_number: 'Номер счёта'
-                bank: 'Банк'
-                bank_address: 'Адрес'
-                swift: 'SWIFT'
-                corr_bank: 'Банк-посредник'
-                total_to_pay: 'Всего к оплате'
-                signature: 'Подпись'
-            supplier:
-                title: '123456'
-                short_title: '123'
-                address: 'some address'
-                extra: []
-                bank:
-                    account: '9999999999999999999'
-                    name: 'Some Bank of some Country'
-                    address: 'Some address'
-                    swift: 'SOMESWIFT'
-                    corr_bank:
-                        name: 'SOME CORR BANK'
-                        swift: 'SOMESWIFT2'
-            buyer:
-                title: '"Some Client" LLC'
-                address: 'Some Address'
-                extra:
-                    - 'VAT: EU12313123'
-                    - 'IBAN: EU123131231231232112'
-        static_substitutions:
-            '%contract_date%': '01.01.1970'
-
-    target:
-        variables:
-            title: 'Счёт на оплату №%invoice_number% от %invoice_date%'
-            currency: 'EUR'
-            rows:
-                supplier: 'Поставщик'
-                buyer: 'Покупатель'
-                # service table
-                th_number: '№'
-                th_name: 'Наименование работ, услуг'
-                th_amount: 'Кол-во'
-                th_units: 'Ед.'
-                th_price: 'Цена'
-                th_sum: 'Сумма'
-                tf_total: 'Итого'
-                # bank data
-                account_data: 'Банковские реквизиты поставщика'
-                account_number: 'Номер счёта'
-                bank: 'Банк'
-                bank_address: 'Адрес'
-                swift: 'SWIFT'
-                corr_bank: 'Банк-посредник'
-                total_to_pay: 'Всего к оплате'
-                signature: 'Подпись'
-            supplier:
-                title: '123456'
-                short_title: '123'
-                address: 'some address'
-                extra: []
-                bank:
-                    account: '9999999999999999999'
-                    name: 'Some Bank of some Country'
-                    address: 'Some address'
-                    swift: 'SOMESWIFT'
-                    corr_bank:
-                        name: 'SOME CORR BANK'
-                        swift: 'SOMESWIFT2'
-            buyer:
-                title: '"Some Client" LLC'
-                address: 'Some Address'
-                extra:
-                    - 'VAT: EU12313123'
-                    - 'IBAN: EU123131231231232112'
-        static_substitutions:
-            '%contract_date%': '01.01.1970'

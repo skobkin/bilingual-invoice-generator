@@ -2,48 +2,32 @@
 
 namespace App\Generator;
 
+use App\Invoice\InvoiceData;
 use App\Kernel;
-use App\Twig\NumberToWordsExtension;
-use App\Util\StringReplacer;
+use App\Text\PlaceholderProcessor;
+use App\Text\Replacer\{LocalizedDateReplacer, StaticReplacer, LocalizedYearMonthReplacer};
+use App\Twig\{NumberToWordsExtension, TextProcessingExtension};
+use Symfony\Component\Yaml\Yaml;
 use Twig\Environment as Twig;
 use Twig\Extra\{Html\HtmlExtension, Intl\IntlExtension};
 use Twig\Loader\FilesystemLoader;
 
 class InvoiceGenerator
 {
-    public static function generate(array $config): string
+    public static function generate(InvoiceData $invoice, array $config): string
     {
-        $twig = static::createTwig();
+        $locales = $config['configuration']['locales'];
 
-        $sourceStaticSubstitutions = array_merge(
-            $config['translations']['source']['static_substitutions'],
-            $config['configuration']['global_substitutions']
-        );
-        $targetStaticSubstitutions = array_merge(
-            $config['translations']['target']['static_substitutions'],
-            $config['configuration']['global_substitutions']
-        );
+        $postprocessor = static::createPostprocessor($invoice);
 
-        $source = StringReplacer::recursiveReplace(
-            $config['translations']['source']['variables'],
-            $sourceStaticSubstitutions
-        );
-        $target = StringReplacer::recursiveReplace(
-            $config['translations']['target']['variables'],
-            $targetStaticSubstitutions
-        );
+        $twig = static::createTwig($postprocessor, $locales['source'], $locales['target']);
 
-        // @TODO fix multilingual substitution depending on the context
-        $services = StringReplacer::recursiveReplace($config['services'], $sourceStaticSubstitutions);
         $images = static::getImagesContent($config['configuration']['images']);
 
         return $twig->render('invoice.html.twig', [
-            'configuration' => $config['configuration'],
-            'trans_data' => [
-                'source' => $source,
-                'target' => $target,
-            ],
-            'services' => $services,
+            'locales' => $locales,
+            'currency' => $config['configuration']['currency_code'],
+            'services' => $config['services'],
             'images' => $images,
         ]);
     }
@@ -59,15 +43,48 @@ class InvoiceGenerator
         return $new;
     }
 
-    private static function createTwig(): Twig
-    {
-        $loader = new FilesystemLoader(__DIR__.'/../../templates');
+    private static function createTwig(
+        PlaceholderProcessor $placeholderProcessor,
+        string $sourceLocale,
+        string $targetLocale
+    ): Twig {
+        $loader = new FilesystemLoader(Kernel::getProjectRoot().'/templates');
         $twig = new Twig($loader);
 
         $twig->addExtension(new NumberToWordsExtension());
         $twig->addExtension(new IntlExtension());
         $twig->addExtension(new HtmlExtension());
 
+        $localeData = static::loadLocaleData($sourceLocale, $targetLocale);
+        $twig->addExtension(new TextProcessingExtension($placeholderProcessor, $localeData));
+
         return $twig;
+    }
+
+    private static function createPostprocessor(InvoiceData $invoice): PlaceholderProcessor
+    {
+        $processor = new PlaceholderProcessor();
+
+        $contractDate = new LocalizedDateReplacer($invoice->getContractStartDate());
+        $processor->addReplacer('%contract_date%', $contractDate);
+
+        $invoiceNumber = new StaticReplacer($invoice->getNumber());
+        $processor->addReplacer('%invoice_number%', $invoiceNumber);
+
+        $invoiceDate = new LocalizedDateReplacer($invoice->getIssueDate());
+        $processor->addReplacer('%invoice_date%', $invoiceDate);
+
+        $periodEnd = new LocalizedYearMonthReplacer($invoice->getAccountedMonthDate());
+        $processor->addReplacer('%period_end_date%', $periodEnd);
+
+        return $processor;
+    }
+
+    private static function loadLocaleData(string $source, string $target): array
+    {
+        return [
+            $source => Yaml::parseFile(Kernel::getProjectRoot().'/translation/source.yaml'),
+            $target => Yaml::parseFile(Kernel::getProjectRoot().'/translation/target.yaml'),
+        ];
     }
 }
