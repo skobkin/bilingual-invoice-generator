@@ -111,10 +111,12 @@
     <tr>
         <td height="50px">{{ 'label_signature'|trans(locale) }}</td>
         <td colspan="2" valign="bottom">
+            {% if images.signature is defined and images.signature is not empty %}
             <img src="{{ images.signature|data_uri(mime='image/png') }}" alt="Signature">
+            {% endif %}
         </td>
     </tr>
-    {% if images.stamp is defined %}
+    {% if images.stamp is defined and images.stamp is not empty %}
     <tr>
         <td colspan="3">
             <img src="{{ images.stamp|data_uri(mime='image/png') }}" alt="Stamp">

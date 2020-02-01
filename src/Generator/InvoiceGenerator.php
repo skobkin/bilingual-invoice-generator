@@ -37,7 +37,7 @@ class InvoiceGenerator
         $new = [];
 
         foreach ($paths as $key => $path) {
-            $new[$key] = file_get_contents(Kernel::getProjectRoot().'/'.$path);
+            $new[$key] = file_exists($path) ? file_get_contents(Kernel::getProjectRoot().'/'.$path) : null;
         }
 
         return $new;
