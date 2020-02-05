@@ -17,6 +17,7 @@ label_supplier_bank_address: 'Адрес'
 label_swift: 'SWIFT'
 label_supplier_corr_bank: 'Банк-посредник'
 label_signature: 'Подпись'
+label_service_quality_agreement: 'Оплата данного счета подтверждает факт согласия обеих сторон о количестве и качестве оказанных услуг.'
 
 # Generic data
 
